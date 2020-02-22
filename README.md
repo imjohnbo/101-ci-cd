@@ -1,12 +1,14 @@
 # Open Source 101: CI/CD
 
-## Goal
+## 🎯 Goal
 
 Develop CI/CD workflows using GitHub Actions.
 
-## Steps
+## 💻 Steps
 
-#### 1. Using what you learned from the [previous section](https://github.com/imjohnbo/101-first-workflow), use GitHub Actions to build, test, and security audit this app across the LTS and Current version of Node.js upon every pull request.
+Using what you learned from the [previous section](https://github.com/imjohnbo/101-first-workflow)...
+
+#### 1. Build, test, and audit this app across the LTS and Current version of Node.js upon every pull request.
 
 <details><summary>Hints</summary>
 
@@ -55,7 +57,7 @@ jobs:
 
 </details>
 
-#### 2. On a push to the master branch, publish this library to [GitHub Packages](https://github.com/features/packages).
+#### 2. Publish this library to [GitHub Packages](https://github.com/features/packages) upon push to the `master` branch.
 
 <details><summary>Hints</summary>
 
