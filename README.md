@@ -12,9 +12,9 @@ Develop CI/CD workflows using GitHub Actions.
 
 1. Uh oh, are the tests broken? :smile:
 
-1. `npm` can do quite a bit, including auditing software for known vulnerabilities.
+2. `npm` can do quite a bit, including auditing software for known vulnerabilities.
 
-1. Explore [workflow](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow) `strategy`.
+3. Explore [workflow](https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow) `strategy`.
 
 </details>
 
@@ -51,7 +51,7 @@ jobs:
 
 ```
 
-1. Fix the broken test.
+2. Fix the broken test.
 
 </details>
 
