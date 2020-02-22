@@ -1,16 +1,16 @@
 # Open Source 101: CI/CD
 
-## Purpose
+## Goal
 
 Develop CI/CD workflows using GitHub Actions.
 
 ## Steps
 
-1. Using what you learned from the [previous section](https://github.com/imjohnbo/101-first-workflow), use GitHub Actions to build, test, and security audit this app across the LTS and Current version of Node.js.
+#### 1. Using what you learned from the [previous section](https://github.com/imjohnbo/101-first-workflow), use GitHub Actions to build, test, and security audit this app across the LTS and Current version of Node.js upon every pull request.
 
 <details><summary>Hints</summary>
 
-1. Uh oh, are the tests broken? :-)
+1. Uh oh, are the tests broken? :smile:
 
 1. `npm` can do quite a bit, including auditing software for known vulnerabilities.
 
@@ -20,12 +20,12 @@ Develop CI/CD workflows using GitHub Actions.
 
 <details><summary>Solution</summary>
 
-1. Start with the "Node.js CI" [template workflows](https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml) and add `npm audit`.
+1. Start with the "Node.js CI" [template workflows](https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml), target the right versions of node, add `npm audit`, and trigger the workflow on the correct event:
 
 ```
 name: Node.js CI
 
-on: [push]
+on: [pull_request]
 
 jobs:
   build:
@@ -55,8 +55,49 @@ jobs:
 
 </details>
 
-2. Deploy this app to GitHub Packages.
+#### 2. On a push to the master branch, publish this library to [GitHub Packages](https://github.com/features/packages).
 
-<details><summary>Hints</summary></details>
+<details><summary>Hints</summary>
 
-<details><summary>Solution</summary></details>
+1. Is there another starter template workflow that can help?
+
+</details>
+
+<details><summary>Solution</summary>
+
+```
+name: Publish Node.js Package
+
+on:
+  push:
+    branches: master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm test
+
+  publish-package:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@your-github-username'
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+```
+
+</details>
