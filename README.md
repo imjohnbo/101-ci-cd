@@ -2,9 +2,11 @@
 
 ## 🎯 Goal
 
-Develop CI/CD workflows using GitHub Actions.
+Develop [Continuous Integration / Continuous Delivery workflows](https://help.github.com/en/actions/building-and-testing-code-with-continuous-integration/about-continuous-integration) using GitHub Actions.
 
 ## 💻 Steps
+
+Discuss CI/CD using [Visualize Git](https://git-school.github.io/visualizing-git/).
 
 Using what you learned from the [previous section](https://github.com/imjohnbo/101-first-workflow)...
 
