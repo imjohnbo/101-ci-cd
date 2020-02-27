@@ -24,7 +24,7 @@ Using what you learned from the [previous section](https://github.com/imjohnbo/1
 
 <details><summary>Solution</summary>
 
-1. Start with the "Node.js CI" [template workflows](https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml), target the right versions of node, add `npm audit`:
+1. Start with the "Node.js CI" [template workflow](https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml), target the right versions of node, add `npm audit`:
 
 ```
 name: Continuous Integration
