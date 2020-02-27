@@ -119,3 +119,7 @@ jobs:
 ```
 
 </details>
+
+## 🏅 Extra credit
+
+* Hook one of your own projects up to GitHub Actions CI/CD
