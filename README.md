@@ -10,7 +10,7 @@ Discuss CI/CD using [Visualize Git](https://git-school.github.io/visualizing-git
 
 Using what you learned from the [previous section](https://github.com/imjohnbo/101-first-workflow)...
 
-#### 1. Build, test, and audit this app across the LTS and Current version of Node.js upon every pull request.
+#### 1. CI: Build, test, and audit this app across the LTS and Current version of Node.js upon every push.
 
 <details><summary>Hints</summary>
 
@@ -24,15 +24,15 @@ Using what you learned from the [previous section](https://github.com/imjohnbo/1
 
 <details><summary>Solution</summary>
 
-1. Start with the "Node.js CI" [template workflows](https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml), target the right versions of node, add `npm audit`, and trigger the workflow on the correct event:
+1. Start with the "Node.js CI" [template workflows](https://github.com/actions/starter-workflows/blob/master/ci/node.js.yml), target the right versions of node, add `npm audit`:
 
 ```
-name: Node.js CI
+name: Continuous Integration
 
-on: [pull_request]
+on: [push]
 
 jobs:
-  build:
+  ci:
 
     runs-on: ubuntu-latest
 
@@ -46,8 +46,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm audit
     - run: npm install
+    - run: npm audit
     - run: npm run build --if-present
     - run: npm test
       env:
@@ -55,53 +55,67 @@ jobs:
 
 ```
 
+2. `npm audit fix`
 2. Fix the broken test.
 
 </details>
 
-#### 2. Publish this library to [GitHub Packages](https://github.com/features/packages) upon push to the `master` branch.
+#### 2. CD: Publish this library to [GitHub Packages](https://github.com/features/packages) upon push to the `master` branch.
 
 <details><summary>Hints</summary>
 
 1. Is there another starter template workflow that can help?
+
+2. Can you combine CI and CD into one workflow?
 
 </details>
 
 <details><summary>Solution</summary>
 
 ```
-name: Publish Node.js Package
+name: Continuous Integration
 
-on:
-  push:
-    branches: master
+on: [push]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - run: npm ci
-      - run: npm test
+  ci:
 
-  publish-package:
-    needs: build
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest]
+
+    strategy:
+      matrix:
+        node-version: [12.x, 13.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: npm audit
+    - run: npm run build --if-present
+    - run: npm test
+      env:
+        CI: true
+  cd:
+    
+    needs: ci
+    if: github.ref == 'refs/heads/master'
+    runs-on: [ubuntu-latest]
+    
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-          scope: '@your-github-username'
+          scope: '@gorchlevlok'
       - run: npm ci
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
+    
 ```
 
 </details>
