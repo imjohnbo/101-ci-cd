@@ -10,7 +10,7 @@ Discuss CI/CD using [Visualize Git](https://git-school.github.io/visualizing-git
 
 Using what you learned from the [previous section](https://github.com/imjohnbo/101-first-workflow)...
 
-#### 1. CI: Build, test, and audit this app across the LTS and Current version of Node.js upon every push.
+#### 1. CI: Build, test, and audit this app across the LTS and Current version of Node.js upon every push and every pull request.
 
 <details><summary>Hints</summary>
 
@@ -29,7 +29,7 @@ Using what you learned from the [previous section](https://github.com/imjohnbo/1
 ```
 name: Continuous Integration
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   ci:
@@ -77,7 +77,7 @@ jobs:
 ```
 name: Continuous Integration and Delivery
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   ci:
@@ -103,7 +103,7 @@ jobs:
   cd:
     
     needs: ci
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     runs-on: [ubuntu-latest]
     
     steps:
