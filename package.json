@@ -1,5 +1,5 @@
 {
-  "name": "clean-object",
+  "name": "@imjohnbo/clean-object",
   "version": "1.0.0",
   "description": "Remove empty strings and undefined props from an object",
   "main": "index.js",

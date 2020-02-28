@@ -73,7 +73,7 @@ jobs:
 <details><summary>Solution</summary>
 
 ```
-name: Continuous Integration
+name: Continuous Integration and Delivery
 
 on: [push]
 
@@ -110,8 +110,9 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-          scope: '@gorchlevlok'
-      - run: npm ci
+          scope: '@my-username'
+      - run: npm i
+      - run: npm run build --if-present
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
