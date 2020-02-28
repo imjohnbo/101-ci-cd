@@ -66,7 +66,9 @@ jobs:
 
 1. Is there another starter template workflow that can help?
 
-2. Can you combine CI and CD into one workflow?
+2. GitHub Packages used scoped NPM packages – you'll need to adjust the package name in `package.json` (and `package-lock.json` via `npm install`) to your username.
+
+3. Can you combine CI and CD into one workflow?
 
 </details>
 
@@ -112,7 +114,6 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: '@my-username'
       - run: npm i
-      - run: npm run build --if-present
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
