@@ -1,0 +1,42 @@
+name: Continuous Integration and Delivery
+
+on: [push, pull_request]
+
+jobs:
+  ci:
+
+    runs-on: [ubuntu-latest]
+
+    strategy:
+      matrix:
+        node-version: [12.x, 13.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: npm audit
+    - run: npm run build --if-present
+    - run: npm test
+      env:
+        CI: true
+  cd:
+    
+    needs: ci
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: [ubuntu-latest]
+    
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: '@imjohnbo'
+      - run: npm i
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
